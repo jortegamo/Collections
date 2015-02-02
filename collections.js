@@ -78,10 +78,131 @@
   		return null;
   	}
 
+    var NodeList = function(value){
+      this.value = value;
+      this.next;
+    }
+
+    //********************//
+    //    LINKED-LISTS    //
+    //********************//
+   
   	//constructor para listas enlazadas
   	LinkedList = function(){
   		this.size = 0;
+      this.first;
+      this.last;
   	}
+
+    LinkedList.prototype.addByPos = function(pos,value){
+      if (pos!= undefined && value!= undefined){
+        if (pos == 0){
+          this.addFirst(value);
+        }else if(pos == this.size){
+          this.addLast(value);
+        }else if(pos > 0){ //todos los demas casos validos.
+          var aux = this.first;
+          for (i=0;i<pos-1){
+            aux = this.first.next;
+          }
+          var n = new NodeList(value);
+          n.next = aux.next;
+          aux.next = n; //insertamos el nuevo valor moviendo todos los demás.
+          this.size ++;
+        }
+      }
+    }
+
+    LinkedList.prototype.addValue = function (value){
+      if (value)
+      this.addLast(value);
+    }
+
+    LinkedList.prototype.addFirst = function(){
+      if (value){
+        if (!first){
+          this.first = new NodeList(value);
+          this.last = this.first;
+        }else{
+          var n = new NodeList (value);
+          n.next = this.first;
+          this.first = n;
+        }
+        this.size ++;
+      }
+
+    }
+
+    LinkedList.prototype.addLast = function(value){
+      if (value){
+        if (!first){
+         this.first = new NodeList(value);
+         this.last = this.first;
+        }else{
+         this.last.next = new NodeList(value);
+         this.last = this.last.next();
+        } 
+        this.size ++;
+      }
+    }
+
+    LinkedList.prototype.removeByPos = function(pos){
+      if (pos != undefined){
+        var aux = this.first;
+        if (pos == 0){ //borrar el primero
+          this.first = aux.next;
+          aux.next = null;
+        }else if(pos > 0){
+          for (i=0;i<pos-1;i++){ //vamos iterando la lista.
+            aux = aux.next;
+          }
+          if (aux != this.last){ //borrar intermedios
+            var aux2 = aux.next;
+            aux = aux.next.next;
+            aux2.next = null;
+          }else if(pos == this.size - 1){ //borrar el ultimo
+            this.last = aux;
+            aux.next = null;
+          }
+        }
+        this.size --; //actualizamos el tamaño de la lista.
+      }else{
+        this.removeLast();
+      }
+    }
+
+    LinkedList.prototype.remove = function(value){
+      if (value){
+        var aux = this.first;
+        for (i=0;i<this.size)
+      }
+    }
+
+    LinkedList.prototype.removeLast = function(){
+      var aux = this.first;
+      for (i=0; i<this.size-1; i++){
+        aux = aux.next;
+      }
+      if (aux){//solo hay un elemento en la lista.
+        this.first = this.last = null;
+      }else{//mas de un elemento en la lista.
+        this.last = aux;
+        aux.next = null;
+      }
+      this.size --; //actualizamos el tamaño de la lista
+    }
+
+    LinkedList.prototype.removeFirst = function(){
+      var aux = this.first;
+      if (this.first == this.last){ //solo un elemento en la lista.
+        this.first = this.last = null;
+      }else{//mas de un elemento en la lista
+        this.first = aux.next;
+        aux.next = null;
+      }
+      this.size --; //actualizamos el tamaño de la lista.
+    }
+
 
   	LinkedList.prototype.identify = function(){
   		return "soy una linkedList"
@@ -91,10 +212,34 @@
   		return true;
   	}
 
+    LinkedList.prototype.convert = function(typeList){
+      if (typeList){
+        var convertList;
+        switch(typeList){
+          case 'double':
+            convertList = new DoubleLinkedList ();
+            var aux = this.first;
+            for (i=0;i<this.size){
+              dLL.add(aux.value);
+              aux = aux.next;
+            }
+        }
+        this = convertList; //ahora la lista es otro tipo de lista.
+      }
+    }
+
+    //**************************//
+    //    DOUBLE-LINKED-LIST    //
+    //**************************//
+    
   	//constructor para listas doblemente enlazadas
   	DoubleLinkedList = function(){
   		this.size = 0;
   	}
+
+    DoubleLinkedList.prototype.add = function(value){
+
+    }
 
   	DoubleLinkedList.prototype.identify = function(){
   		return "soy una doubleLinkedList"
